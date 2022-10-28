@@ -1,16 +1,16 @@
 const express = require('express')
 const app = express();
-const notes = require('./routes/noteRouter')
+const api = require('./routes/noteRouter')
 const path = require('path')
+
 
 const PORT = 3001;
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded( {extended: true}));
 
 app.use(express.static('public'))
-
-
+app.use('/api', api)
 
 // Get for homepage
 app.get('/', (req, res) => {
@@ -18,11 +18,9 @@ app.get('/', (req, res) => {
 })
 
 // Get for notes page
-app.get('/api/notes', (req, res) => {
+app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/notes.html'))
 })
-
-
 
 
 

@@ -17,7 +17,7 @@ notes.post('/api/notes', (req, res) => {
                 note,
                 note_id: uuid()
             }
-        };
+        
 
         const noteString = JSON.stringify(newNote);
         
@@ -31,13 +31,17 @@ notes.post('/api/notes', (req, res) => {
         fs.writeFile(`../db/db.json`, noteString, (err) => err ? console.error(err) : console.log(`New note added!`))
         
         })
+        } else{
+            res.status(200)
+            console.log('OK')
+        }
   });
 
 // Get Request
 notes.get(`/api/notes`, (req, res) => {
     console.info(`${req.method} request recieved for notes`)
 
-    readFromFile('../db/db.json')
+    readFromFile('./db/db.json')
         .then((data) => { 
             res.json(JSON.parse(data))
     });
