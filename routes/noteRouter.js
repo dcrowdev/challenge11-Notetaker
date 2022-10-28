@@ -1,11 +1,14 @@
 const notes = require('express').Router();
-const uuid = require('./helpers/uuid');
+const uuid = require('../helpers/uuid');
 const fs = require('fs');
+const util = require('util')
+
+const readFromFile = util.promisify(fs.readFile)
 
 
 // Post request
 notes.post('/api/notes', (req, res) => {
-        console.info(`${req.method} request recieved to get reviews`)
+        console.info(`${req.method} request recieved to post a new note`)
 
         const { note } = req.body;
 
@@ -31,7 +34,14 @@ notes.post('/api/notes', (req, res) => {
   });
 
 // Get Request
+notes.get(`/api/notes`, (req, res) => {
+    console.info(`${req.method} request recieved for notes`)
 
+    readFromFile('../db/db.json')
+        .then((data) => { 
+            res.json(JSON.parse(data))
+    });
+});
 
 
 module.exports = notes;
