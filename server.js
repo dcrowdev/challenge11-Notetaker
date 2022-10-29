@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express();
-const api = require('./routes/noteRouter')
+const notes = require('./routes/noteRouter')
 const path = require('path')
 
 
@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded( {extended: true}));
 
 app.use(express.static('public'))
-app.use('/api', api)
+app.use('/api/notes', notes)
 
 // Get for homepage
 app.get('/', (req, res) => {
