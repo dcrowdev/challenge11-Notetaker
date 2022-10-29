@@ -2,7 +2,6 @@ const notes = require('express').Router();
 const uuid = require('../helpers/uuid');
 const fs = require('fs');
 const util = require('util')
-// const notesArr = require('../db/db.json')
 const readFromFile = util.promisify(fs.readFile)
 const writeToFile = util.promisify(fs.writeFile)
 
@@ -12,16 +11,13 @@ notes.post('/', (req, res) => {
     readFromFile('./db/db.json', 'utf-8')
         .then((data) => {
             var notesArr = JSON.parse(data);
-            console.log(notesArr)
             const { title, text } = req.body;
-
             const newNote = {
                 title,
                 text,
                 id: uuid()
             }
             const newNoteArr = [...notesArr, newNote]
-            console.log(newNoteArr)
             writeToFile('./db/db.json', JSON.stringify(newNoteArr))
                 .then(() =>
                     res.json({ msg: 'OK' }))
