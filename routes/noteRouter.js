@@ -19,10 +19,13 @@ notes.post('/', (req, res) => {
                 title,
                 text,
                 id: uuid()
-            }    
+            }
             const newNoteArr = [...notesArr, newNote]
             console.log(newNoteArr)
-            writeToFile('./db/db.json', JSON.stringify(newNoteArr)).then( () => res.json({ msg: 'OK' }))
+            writeToFile('./db/db.json', JSON.stringify(newNoteArr))
+                .then(() =>
+                    res.json({ msg: 'OK' }))
+                .catch(err => res.status(400).json({ msg: `Could not post note.` }))
         });
 });
 
@@ -38,13 +41,13 @@ notes.get('/', (req, res) => {
 // Delete request
 notes.delete('/:id', (req, res) => {
     console.info(`${req.method} request recieved for notes`);
- 
-        readFromFile('./db/db.json', 'utf-8')
+    readFromFile('./db/db.json', 'utf-8')
         .then((data) => {
             var oldNotes = [].concat(JSON.parse(data));
             var updatedNotes = oldNotes.filter(note => note.id !== req.params.id)
             writeToFile('./db/db.json', JSON.stringify(updatedNotes))
-            .then( () => res.json({ msg: 'OK' })).catch(err => res.status(400).json({ msg: `No note with the id ${req.params.id}` }))
+                .then(() => res.json({ msg: 'OK' }))
+                .catch(err => res.status(400).json({ msg: `No note with the id ${req.params.id}` }))
         });
 
 });
