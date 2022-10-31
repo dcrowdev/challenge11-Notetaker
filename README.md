@@ -2,7 +2,7 @@
 
 ![Screenshot of application](./images/screenshot.PNG)
 
-This is an node.js notetaker application deployed on heroku.
+This is a node.js notetaker application deployed on heroku.
 
 [Linked to deployed heroku app](https://dreadful-spirit-98896.herokuapp.com/)
 
